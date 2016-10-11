@@ -1,0 +1,14 @@
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\obj\Debug\WhereUsedPlus.csprojResolveAssemblyReference.cache
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\WhereUsedPlus.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\WhereUsedPlus.pdb
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\Alchemy4Tridion.Plugins.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\System.Web.Http.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\Tridion.ContentManager.CoreService.Client.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\Alchemy4Tridion.Plugins.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\bin\Debug\System.Web.Http.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\obj\Debug\WhereUsedPlus.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\WhereUsedPlus\obj\Debug\WhereUsedPlus.pdb

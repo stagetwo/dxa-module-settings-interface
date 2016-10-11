@@ -1,0 +1,1791 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Alchemy4Tridion.Plugins</name>
+    </assembly>
+    <members>
+        <member name="T:Alchemy4Tridion.Plugins.AlchemyApiController">
+            <summary>
+            The Alchemy WebAPI Controller. Alchemy controllers should inherit from this base class to automatically get
+            picked up. An AlchemyRoutePrefixAttribute must also be added to the controller.
+            </summary>
+            <example>
+            <code>
+            [AlchemyRoutePrefix(typeof(MyPluginType), "Example")]
+            public class ExampleController : AlchemyApiController
+            {
+                [HttpGet]
+                [Route("hello")]
+                public string GetExample()
+                {
+                    return "Hello Example";
+                }
+            }
+            </code>
+            <para>
+            The above would produce a route to /Alchemy/Plugins/YourPlugin/api/Example/hello, which when called
+            would return a response containing the string "Hello Example".
+            </para>
+            </example>
+            <remarks>
+            An automatically created JavaScript proxy can be created for you that will allow you to call your
+            controller's actions w/o including any other library.  To add this proxy to a resource group, add
+            a call to the method <c>AddWebApiProxy();</c>.  After doing this, in your JavaScript files you'll
+            be able to then make a call to <c>Alchemy.Plugins.YourPlugin.Api.Example.hello();</c>, which will
+            return a promise.
+            </remarks>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.IAlchemyApiController">
+            <summary>
+            Interface that a plugin's web api controller(s) needs to implement.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyApiController.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.AlchemyPluginBase">
+            <summary>
+            Abstract base class to inherit your Alchemy Plugins from. All plugins are required to inherit
+            from this base class.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.IAlchemyPlugin">
+            <summary>
+            Interface for an alchemy plugin that will automatically get exported.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.IAlchemyPlugin.Configure(Alchemy4Tridion.Plugins.IPluginServiceLocator)">
+            <summary>
+            Configures the services that will be used by this plugin.
+            </summary>
+            <param name="services">The default services that are used by this plugin.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.IAlchemyPlugin.MapEditorUrl(System.String)">
+            <summary>
+            Maps a url relative to the editor url.
+            </summary>
+            <param name="url">The url to map</param>
+            <returns>A url like '/WebUI/Editors/Alchemy/Plugins/PluginName/Mapped/Portion/'</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.IAlchemyPlugin.MapPath(System.String)">
+            <summary>
+            Maps a path based on the plugin's folder path.
+            </summary>
+            <param name="path">The path relative to the plugin's folder path.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.AppUrl">
+            <summary>
+            Gets the Alchemy application url to the plugin. (ie '/Alchemy/Plugins/PluginName/').
+            </summary>
+            <remarks>
+            The AppUrl is used when calling to alchemy services directly. For GUI related items the EditorUrl should be used.
+            </remarks>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.EditorUrl">
+            <summary>
+            Gets the Tridion Editor url to the plugin. (ie '/WebUI/Editors/Alchemy/Plugins/PluginName/').
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.EditorSections">
+            <summary>
+            Gets the GUI editor sections that are contained in this plugin. (Set by Core framework.)
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.PluginInfo">
+            <summary>
+            Gets the plugin information.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.IconUrl">
+            <summary>
+            Gets the url to the plugin's icon.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.Id">
+            <summary>
+            Gets the unique web store identifier of the plugin. Returns null if there is 
+            no id (plugin was never uploaded).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.Name">
+            <summary>
+            Gets the unique name of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.PluginPath">
+            <summary>
+            Gets the absolute path to the plugin including the plugin folder. ie (C:\Tridion\Alchemy\Plugins\PluginName\)
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.Services">
+            <summary>
+            Gets the services that are used by this plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.Settings">
+            <summary>
+            Gets the plugin settings. Note that this property is not cached and every time it is accessed
+            a new PluginSettings instance is created.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IAlchemyPlugin.Summary">
+            <summary>
+            Gets the summary of the plugin.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.editorSections">
+            <summary>
+            The editor sections that this plugin contains.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.iconUrl">
+            <summary>
+            The url to the plugin's icon.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.pluginInfo">
+            <summary>
+            The underlying plugin info xml.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.pluginPath">
+            <summary>
+            The path to where the plugin is installed.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.services">
+            <summary>
+            The services that this plugin contains.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyPluginBase.summary">
+            <summary>
+            The cached summary of the plugin.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.#ctor">
+            <summary>
+            Constructor
+            </summary>
+            <exception cref="T:System.IO.FileNotFoundException">Throws FileNotFound if the plugin package is missing a4t.xml.</exception>
+            <exception cref="T:System.FormatException">Throws FormatException if the a4t.xml is not expected format.</exception>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.#ctor(System.String)">
+            <summary>
+            Constructor that takes a path to the plugin (root folder where a4t.xml lives). This constructor
+            is typically used for testing purposes only.
+            </summary>
+            <param name="pluginPath">The path to the plugin.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.Configure(Alchemy4Tridion.Plugins.IPluginServiceLocator)">
+            <summary>
+            Configures the services that will be used by this plugin.
+            </summary>
+            <param name="services">The default services that are used by this plugin.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.MapEditorUrl(System.String)">
+            <summary>
+            Maps a url relative to the editor url.
+            </summary>
+            <param name="url">The url to map</param>
+            <returns>A url like '/WebUI/Editors/Alchemy/Plugins/PluginName/Mapped/Portion/'</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.MapPath(System.String)">
+            <summary>
+            Maps a path based on the plugin's folder path.
+            </summary>
+            <param name="path">The path relative to the plugin's folder path.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyPluginBase.LoadInfo">
+            <summary>
+            Loads the a4t.xml file and sets the info properties.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.AppUrl">
+            <summary>
+            Gets the Alchemy application url to the plugin. (ie '/Alchemy/Plugins/PluginName/').
+            </summary>
+            <remarks>
+            The AppUrl is used when calling to alchemy services directly. For GUI related items the EditorUrl should be used.
+            </remarks>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.EditorUrl">
+            <summary>
+            Gets the Tridion Editor url to the plugin. (ie '/WebUI/Editors/Alchemy/Plugins/PluginName/').
+            </summary>
+            /// <remarks>
+            The EditorUrl is for using context under the Tridion editor. For accessing your webapi controllers, the
+            AppUrl should be used.
+            </remarks>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.EditorSections">
+            <summary>
+            Gets the GUI editor sections that are contained in this plugin. (Set by Core framework.)
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.IconUrl">
+            <summary>
+            Gets the url to the plugin's icon.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.Id">
+            <summary>
+            Gets the unique web store identifier of the plugin from plugin info.. Returns null if there is 
+            no id (plugin was never uploaded).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.Name">
+            <summary>
+            Gets the unique name of the plugin from plugin info.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.PluginInfo">
+            <summary>
+            Gets the plugin information (represented by the plugin's xml file).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.PluginPath">
+            <summary>
+            Gets the absolute path to the plugin including the plugin folder. ie (C:\Tridion\Alchemy\Plugins\PluginName\)
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.Services">
+            <summary>
+            Gets the plugin services/utilities that are consumed by this plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.Settings">
+            <summary>
+            Gets the plugin settings. Note that this property is not cached and every time it is accessed
+            a new PluginSettings instance is created.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyPluginBase.Summary">
+            <summary>
+            Gets the summary of the plugin (from plugin info, uses summary if available, else the beginning of description).
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Controllers.PluginControllerExtensions">
+            <summary>
+            Extenion methods for working with WebAPI Controllers specific for Alchemy.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Controllers.PluginControllerExtensions.GetApiControllerTypes(Alchemy4Tridion.Plugins.IAlchemyPlugin)">
+            <summary>
+            Gets all of the Alchemy service webapi controller types stored in the plugin.
+            </summary>
+            <param name="plugin">The plugin to get the types for.</param>
+            <returns>A collection of web api types.</returns>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension">
+            <summary>
+            Represents a command extension extension type.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection">
+            <summary>
+            Interface for an editor configuration section that will be automatically merged with the main editor config.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection.Plugin">
+            <summary>
+            Gets the plugin that this config section is a part of. Should be set automatically by core.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.editorExtensionTarget">
+            <summary>
+            The target extension.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The name of the existing command that's being extended.</param>
+            <param name="extendingCommand">The name of the command to extend</param>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.EditorExtensionTarget">
+            <summary>
+            Gets or sets the editorextension target of this extension.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.ExtendingCommand">
+            <summary>
+            The name of the command that extends the existing command.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.Dependencies">
+            <summary>
+            Gets or sets the list of dependencies that this group depends on.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.Name">
+            <summary>
+            Gets or sets the name of the existing command that you are extending. ie "Delete".
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandExtension.Plugin">
+            <summary>
+            The plugin that this config extension belongs to.  Set automatically by the core framework.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet">
+            <summary>
+            Represents a command set within the editor's configuration.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.name">
+            <summary>
+            The unique identifier of this command set.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet._commands">
+            <summary>
+            The list of commands within this command set.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">the optional unique identifier of the command set (defaults to the Type name)</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.AddCommand(System.String,System.String)">
+            <summary>
+            Adds a command to the command set.
+            </summary>
+            <param name="commandName">The name of the command.</param>
+            <param name="commandImplementation">The optional implementation, leave null to use the default namespace for implementations.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.Commands">
+            <summary>
+            Gets the commands that this command set contains.
+            </summary>
+            <returns>A read only list of commands.</returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.Name">
+            <summary>
+            Gets the unique short identifier of the commandset.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.Plugin">
+            <summary>
+            The Alchemy plugin
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.CommandSet.FullName">
+            <summary>
+            Gets or sets the full unique identifier of this command set (ie Alchemy.Plugins.PluginName.Commands.SetName).
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension">
+            <summary>
+            Represents a context menu configuration piece within the editorextensions element.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase">
+            <summary>
+            Abstract class for extension config section within the <editorextensions /> element.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.name">
+            <summary>
+            Gets the name of the extension.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase._editorExtensionTarget">
+            <summary>
+            The editor extension target of this extension.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.Apply">
+            <summary>
+            Gets or sets the apply instance that allows the extension to be applied to particular views, controllers, or containers.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.AssignId">
+            <summary>
+            Gets or sets required identifier to assign to this extension. This value typically becomes
+            the id of the html element created for the extension.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.Dependencies">
+            <summary>
+            Gets or sets the list of dependencies that this group depends on.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.Disabled">
+            <summary>
+            Gets or sets whether this extension is disabled.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.EditorExtensionTarget">
+            <summary>
+            Gets or sets the editorextension target of this extension.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.GroupId">
+            <summary>
+            Gets or sets group identifier that this extension should be assigned to.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.InsertBefore">
+            <summary>
+            Gets or sets the target to insert this extension before.  Leave blank to insert at the end.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.InsertBeforeGroup">
+            <summary>
+            Gets or sets the target group to insert this extension before.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.Name">
+            <summary>
+            Gets or sets the required name of the extension. This often becomes the label of
+            the extension depending on its type.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.PageId">
+            <summary>
+            Gets or sets the identifier of the page to assign the extension to.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionConfigBase.Plugin">
+            <summary>
+            The plugin that this config extension belongs to.  Set automatically by the core framework.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension._items">
+            <summary>
+            The context menu items contained within this extension.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension.AddItem(System.String,System.String,System.String)">
+            <summary>
+            Adds a context menu item to the context menu.
+            </summary>
+            <param name="id">The unique identifier of this menu item. Becomes the id attribute of the html element.</param>
+            <param name="name">The name to display for this menu item.</param>
+            <param name="command">The command to execute when this menu item is clicked.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension.AddSeparator(System.String)">
+            <summary>
+            Adds a separator to the context menu.
+            </summary>
+            <param name="id">The unique identifier of this separator.  Becomes the id attribute of the html element.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension.AddSubMenu(System.String,System.String)">
+            <summary>
+            Adds a submenu section to the context menu. The submenu can contain its own items, separators, and submenus.
+            </summary>
+            <param name="id">The unique identifier of this submenu. Becomes the id attribute of the html element.</param>
+            <param name="name">The name to display for this submenu item.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ContextMenuExtension.Items">
+            <summary>
+            Gets the read only collection of context menu items that are contained within this extension.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.EditorExtensionMethods">
+            <summary>
+            Contains extension methods for working with collections of gui extension configuration objects.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.EditorExtensionMethods.GetDependencyName(System.Collections.Generic.IEnumerable{Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection},Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependency)">
+            <summary>
+            Gets the name of a dependency.
+            </summary>
+            <param name="dependency">The dependency instance to get the name for.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.EditorExtensionMethods.GetReference(System.Collections.Generic.IEnumerable{Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection},System.Type)">
+            <summary>
+            Gets an instance of an editor section based on the type passed in.
+            </summary>
+            <param name="type">The type of the reference to get.</param>
+            <returns>The registered reference, or null if none was found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.EditorExtensionMethods.GetReference``1(System.Collections.Generic.IEnumerable{Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection},System.Type)">
+            <summary>
+            Gets an instance of an editor section based on the type passed in and casts it by the passed in generic.
+            </summary>
+            <typeparam name="T">A type that inherits from IEditorSection.</typeparam>
+            <param name="type">The type of the reference to get.</param>
+            <returns>The registered reference, or null if none was found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.EditorExtensionMethods.GetReferenceName(System.Collections.Generic.IEnumerable{Alchemy4Tridion.Plugins.GUI.Configuration.IEditorSection},System.Type)">
+            <summary>
+            Gets a reference's name based on its type.
+            </summary>
+            <param name="type">The type to get the reference for.</param>
+            <returns>Null if no reference could be found, else the full name of the reference.</returns>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.CommandSetCommand">
+            <summary>
+            Represents a command within a command set.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.CommandSetCommand.Implementation">
+            <summary>
+            Gets or sets the JavaScript command that this implements.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.CommandSetCommand.Name">
+            <summary>
+            Gets or sets the name of the command.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem">
+            <summary>
+            Represents an item in the context menu.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem._items">
+            <summary>
+            The child context menu items if any.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.AddItem(System.String,System.String,System.String)">
+            <summary>
+            Adds a context menu item to the context menu.
+            </summary>
+            <param name="id">The unique identifier of this menu item. Becomes the id attribute of the html element.</param>
+            <param name="name">The name to display for this menu item.</param>
+            <param name="command">The command to execute when this menu item is clicked.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.AddSeperator(System.String)">
+            <summary>
+            Adds a separator to the context menu.
+            </summary>
+            <param name="id">The unique identifier of this separator.  Becomes the id attribute of the html element.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.AddSubMenu(System.String,System.String)">
+            <summary>
+            Adds a submenu section to the context menu. The submenu can contain its own items, separators, and submenus.
+            </summary>
+            <param name="id">The unique identifier of this submenu. Becomes the id attribute of the html element.</param>
+            <param name="name">The name to display for this submenu item.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.Command">
+            <summary>
+            Gets or sets the name of the command that this menu item calls when clicked.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.Items">
+            <summary>
+            Gets the read only list of child context menu items if any.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.Id">
+            <summary>
+            Gets or sets the unique identifier of the menu item.  This will become the id attribute of the html element created.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.Name">
+            <summary>
+            Gets or sets the name that is displayed for this context menu item.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ContextMenuItem.Type">
+            <summary>
+            Gets or sets the type of context menu item this is.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies">
+            <summary>
+            Represents a dependencies element within the editor configuration.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies._dependencies">
+            <summary>
+            The dependencies that have been added.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.Add(System.String[])">
+            <summary>
+            Adds one or more dependencies.
+            </summary>
+            <param name="files">The dependencies to add.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.Add(System.String)">
+            <summary>
+            Adds a dependency.
+            </summary>
+            <param name="dependency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.Add``1">
+            <summary>
+            Adds a dependency, where the type is a type reference to the dependency to add.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddAlchemyCore">
+            <summary>
+            Adds the core Alchemy resource group as a dependency.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddLibAngular">
+            <summary>
+            Adds the angular javascript library as a dependency.  The angular library has a dependency on Alchemy Core (automatically added if you add this).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddLibraryDot">
+            <summary>
+            Adds the doT JavaScript Templating library as a dependency.  The doT library has a dependency on Alchemy Core (automatically added if you add this).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddLibraryJQuery">
+            <summary>
+            Adds the jquery library as a dependency.  The jQuery library has a dependency on Alchemy Core (no need to add that if adding this).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddLibraryQwest">
+            <summary>
+            Adds the qwest library as a dependency. The jQuery library has a dependency on Alchemy Core (no need to add that if you are adding this).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.AddLibraryZeroClipboard">
+            <summary>
+            Adds the ZeroClipboard library as a dependency.  The ZeroClipboard library has a dependency on Alchemy Core (no need to add that if adding this).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.Count">
+            <summary>
+            Gets the total number of dependencies contained.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependencies.Items">
+            <summary>
+            Gets the read only list of dependencies.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependency">
+            <summary>
+            Represents a dependency within a dependencies element. Either the Value OR the DependencyType should be filled out.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependency.DependencyType">
+            <summary>
+            Gets or sets the dependency type reference.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.Dependency.Value">
+            <summary>
+            Gets or sets the value of the dependency.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ExtensionGroupInsertAfter">
+            <summary>
+            Represents an insertafter value within an extension of an extensiongroup.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ExtensionGroupInsertAfter.InsertAfter">
+            <summary>
+            Gets or sets the string value of insert after.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.ExtensionGroupInsertAfter.Reference">
+            <summary>
+            Gets or sets the type reference of insert after
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup">
+            <summary>
+            Represents an ExtensionGroup within the editor config.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.name">
+            <summary>
+            The name of the extension group.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The optional name of the plugin. Defaults to the type name of the extension group class.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.AddExtension(System.String,System.String[])">
+            <summary>
+            Adds an extension to be extended by the extension group.
+            </summary>
+            <param name="target">The name of the resource group to be extended by this extension.</param>
+            <param name="insertAfter">One or more group names that will be extending the target (groups will be included AFTER target is loaded).</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.AddExtension(System.String,System.Type[])">
+            <summary>
+            Adds an extension to be extended by the extension group.
+            </summary>
+            <param name="target">The name of the resource group to be extended by this extension.</param>
+            <param name="insertAfter">One or more group types that will be extending the target (groups will be included AFTER target is loaded).</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.AddExtension``1(System.String)">
+            <summary>
+            Adds an extension to be extended by the extension group.
+            </summary>
+            <typeparam name="T">The resource group that will be extending the target group.</typeparam>
+            <param name="target">The name of the group being targeted.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.Extensions">
+            <summary>
+            Gets or sets the extensions that this extension group extends.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.FullName">
+            <summary>
+            Gets the full resource name (ie Alchemy.Plugins.PluginName.ExtensionGroups.GroupName).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.Name">
+            <summary>
+            Gets or sets the name of the extension group.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ExtensionGroup.Plugin">
+            <summary>
+            The plugin that this resource group belongs to.  Set automatically by core framework.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.Apply">
+            <summary>
+            Represents the apply section of extension configuration sections.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.Apply._views">
+            <summary>
+            The views that this extension is applied to.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.Apply.ToView(System.String)">
+            <summary>
+            Adds the extension to a given view.
+            </summary>
+            <param name="viewName">The name of the view to add to.</param>
+            <returns>This Apply instance</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.Apply.ToView(System.String,System.String)">
+            <summary>
+            Adds the extension to a given view.
+            </summary>
+            <param name="viewName">The name of the view to add to.</param>
+            <param name="controlId">The identifier of the control to add to.</param>
+            <returns>This Apply instance</returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.Apply.Views">
+            <summary>
+            Gets the views that this extesnion should be applied to.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ApplyView">
+            <summary>
+            Represents an applied to view in the configuration.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ApplyView.ControlId">
+            <summary>
+            Gets or sets the control id the extension is applied to.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ApplyView.Name">
+            <summary>
+            Gets or sets the name of the view to apply the extension to.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionGroupExtension">
+            <summary>
+            Represents an extension within an extension group.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionGroupExtension.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionGroupExtension.InsertAfter">
+            <summary>
+            Gets or sets the specified group name(s) to be inserted after the group being extended.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Extensions.ExtensionGroupExtension.Target">
+            <summary>
+            Gets or sets the target resource group name that this extension is targeting (the existing group that's being extended).
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension">
+            <summary>
+            Represents a ribbon toolbar extension configuration piece.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.group">
+            <summary>
+            The filename of the group user control.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.Command">
+            <summary>
+            Gets or sets the name of the JavaScript command to be executed.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.Group">
+            <summary>
+            Gets or sets the filename of the group user control, ie 'MyRibbnGroup.ascx'.  Only the 
+            filename is needed if using a default Alchemy plugin location for controls.
+            <note type="note">
+            When using this property, the attributes and properties set in the user control's markup
+            override other properties set here like Command, Title, and IsSmallButton.
+            </note>
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.IsSmallButton">
+            <summary>
+            Gets whether or not to apply the ribbon toolbar button as a small button.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.RibbonToolbarExtension.Title">
+            <summary>
+            Gets or sets the Title of ribbon toolbar button and becomes the tooltip label.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File">
+            <summary>
+            Represents a file within the fileset element of a resource group.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File.#ctor(Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="type">The type of file</param>
+            <param name="location">The location of the file</param>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File.Location">
+            <summary>
+            Gets or sets the location of the file.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File.Reference">
+            <summary>
+            Gets or sets the type reference of this file.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.File.Type">
+            <summary>
+            Gets or sets the file's type.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes">
+            <summary>
+            The types of files available.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes.Script">
+            <summary>
+            Represents a script type.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes.Style">
+            <summary>
+            Represents a stylesheet type.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes.Reference">
+            <summary>
+            Represents a reference type.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup">
+            <summary>
+            Represents a resource group in the editor configuration at /Configuration/resources/cfg:groups.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.addWebApiProxy">
+            <summary>
+            Whether or not to add the webapi proxy file and dependencies to this resource group.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.name">
+            <summary>
+            The short name of the resource group.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="name">The optional name of the resource group. Uses the type name by default.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.AddWebApiProxy">
+            <summary>
+            Adds the web api JavaScript proxy file to the file of this resource group and attaches necessary dependencies.
+            The proxy is an automatically built JavaScript API that allows you to call your plugin's WebAPI controllers
+            as well as some other server side utilities like getting your custom configuration client settings.
+            <note type="note">
+              You do not have to add a dependency to the Alchemy Core resource group via <c>Dependencies.AddAlchemyCore()</c> as the proxy 
+              already has a dependency on it.
+            </note>
+            </summary>
+            <remarks>
+            You can call AddWebApiProxy anywhere within your ResourceGroup's constructor.  It will always be
+            placed at the top of your dependencies.
+            </remarks>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.AddFile(System.String)">
+            <summary>
+            Adds a file to the group's fileset. The file type is determined by the file's extension.
+            </summary>
+            <param name="file"></param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.AddFile``1">
+            <summary>
+            Adds a file reference that will point to the name of the reference using it.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.AddFile(Alchemy4Tridion.Plugins.GUI.Configuration.Elements.FileTypes,System.String)">
+            <summary>
+            Adds a file to the group's fileset.
+            </summary>
+            <param name="type">The type of file to add.</param>
+            <param name="file">The location of the file to add.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.AddFiles(System.String[])">
+            <summary>
+            Adds files to the group's fileset. The types are determined by each file's extension.
+            </summary>
+            <param name="files">The files to add.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.Dependencies">
+            <summary>
+            Gets or sets the list of dependencies that this group depends on.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.Fileset">
+            <summary>
+            Gets or sets the list of files in the resource group.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.FullName">
+            <summary>
+            Gets the full resource name (ie Alchemy.Plugins.PluginName.Resources.GroupName).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.Name">
+            <summary>
+            Gets or sets the name of this resource group.  This is the short name at the end of the full name.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.ResourceGroup.Plugin">
+            <summary>
+            The plugin that this resource group belongs to.  Set automatically by core framework.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension" -->
+        <member name="F:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension.control">
+            <summary>
+            The ascx user control that represents the page.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension.Control">
+            <summary>
+            Gets or sets the ASCX user control file that presents the page. Required for tab pages.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension.PageType">
+            <summary>
+            Gets or sets the page's definition of the client side name.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension.RenderInBlock">
+            <summary>
+            Gets or sets whether or not the tab page is rendered in block.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.GUI.Configuration.TabPageExtension.Width">
+            <summary>
+            Gets or sets the width property of the Page. It doesn't affect the actual width of the Page.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.GUI.Configuration.Constants">
+            <summary>
+            Represents constants for string values contains within the Tridion GUI, like PageIds,
+            View names, context menu items, etc.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.IPluginInfo">
+            <summary>
+            Interface that represents plugin info.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Author">
+            <summary>
+            Gets the name of the author.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.BuildTime">
+            <summary>
+            Gets the time that this plugin was built.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Description">
+            <summary>
+            Gets the description of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Id">
+            <summary>
+            Gets the unique identifier of this plugin used in the web store.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Name">
+            <summary>
+            Gets the unique plugin's name.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Summary">
+            <summary>
+            Gets the summary of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.Version">
+            <summary>
+            Gets the version number of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginInfo.VersionId">
+            <summary>
+            Gets the unique version identifier of the plugin used by the web store.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.IPluginSettings">
+            <summary>
+            Interface for getting custom configuration settings from a plugin.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Decrypt(System.String)">
+            <summary>
+            If the given encryption key matches the ISettingsEncryptorService's key of the plugin, will decypt values
+            that are retrieved via the Get methods.
+            </summary>
+            <param name="encryptionKey">The encryption key used by the plugin.</param>
+            <returns>True if the key matched and values will not be decrypted, else false.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get``1">
+            <summary>
+            Gets all of the settings at this level deserialized into a strongly typed object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get``1(System.Boolean)">
+            <summary>
+            Gets all of the client only settings at this level deserialized into a strongly typed object.
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="clientOnly">Whether or not to include only client settings.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get(System.Type,System.Boolean)">
+            <summary>
+            Gets all of the client only settings at this level deserialized into a strongly typed object.
+            </summary>
+            <param name="type">The type to return the value as.</param>
+            <param name="clientOnly">Whether or not to include only client settings.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get(System.String,System.String)">
+            <summary>
+            Gets a value from the plugin settings.
+            </summary>
+            <param name="key">The key of the setting to lookup.</param>
+            <param name="defaultValue">The default value to return (defaults as null).</param>
+            <returns>The value, or the default value if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get``1(System.String)">
+            <summary>
+            Gets a value from the plugin settings as a specific type.
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="key">The key of the setting to lookup.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Get``1(System.String,``0)">
+            <summary>
+            Gets a value from the plugin settings as a specific type. 
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="key">The key of the setting to lookup.</param>
+            <param name="defaultValue">The default value to return if the setting couldn't be found.</param>
+            <returns>The value as the specified type, or the defualt value if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.GetAsClientType">
+            <summary>
+            Gets a deserialized object based off of client only settings
+            at the root level of the settings element.
+            </summary>
+            <returns>
+            The value as the specified type defined by the 'clientType'.
+            </returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.GetList(System.String)">
+            <summary>
+            Gets a setting's value as a list of string values.
+            </summary>
+            <param name="key">The key of the setting to lookup</param>
+            <returns>Null if the key was not found, or a list of string values that are trimmed of whitespace.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.GetNestedSettings(System.String)">
+            <summary>
+            Gets a value as a nested PluginSettings instance (for non 'add' elements, the key will be the element's
+            name and the value will be the element's value.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.GetSetting(System.String)">
+            <summary>
+            Gets a plugin setting value as an underyling PluginSetting instance.
+            </summary>
+            <param name="key">The key of the setting to lookup.</param>
+            <returns>The PluginSetting, or null if the key was not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.IPluginSettings.Save">
+            <summary>
+            Saves the a4t.xml file with any changes that have been made.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginSettings.DecryptValues">
+            <summary>
+            Gets whether or not the values will be decrypted by the Get methods.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginSettings.EncryptionKey">
+            <summary>
+            Gets the encryption key that was used with the Decrypt method.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginSettings.Keys">
+            <summary>
+            Gets the keys of the root level that this instance represents.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.IPluginSettings.Plugin">
+            <summary>
+            Reference to the plugin that these settings belong to.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.ISettingsDeserializationService">
+            <summary>
+            Interface for service that is used for deserializing settings.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.ISettingsDeserializationService.ClientSettingsType">
+            <summary>
+            Gets or sets the type that is used when deserialize the client settings. If left
+            empty, the plugin's Settings.GetClientSettings() will return an ExpandoObject.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService">
+            <summary>
+            Interface for service responsible for encrypting and decrypting custom configuration settings.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService.Encrypt(System.String)">
+            <summary>
+            Encrypts a given text into diciphered text.
+            </summary>
+            <param name="clearText">The clear undeciphered text.</param>
+            <returns>The deciphered text.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypts a given diciphered text back into clear text.
+            </summary>
+            <param name="decipherText">The deciphered text.</param>
+            <param name="encryptionKey">The encryption key to decrypt settings with.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService.IsValueEncrypted(System.String)">
+            <summary>
+            Gets whether or not a given value is encrypted or not.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns>True if the value is encrypted, or false if its not.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService.MatchesEncryptionKey(System.String)">
+            <summary>
+            Gets whether or not a given key matches the plugin's encryption key.
+            </summary>
+            <param name="encryptionKey"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.ISettingsEncryptorService.EncryptionKey">
+            <summary>
+            Sets the encryption key (can only be set once).
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.IStronglyTypedClientSettings">
+            <summary>
+            Interface to add to a class that represents a strongly typed client settings object.
+            </summary>
+            <remarks>
+            If you add this to a class that represents your strongly typed client settings model, you do not
+            have to use the 'clientType' attribute of the 'settings' element in the a4t.xml file.
+            </remarks>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.PluginInfo">
+            <summary>
+            Represents the data from the info.xml at root of package.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Author">
+            <summary>
+            Gets or sets the name of the author.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.BuildTime">
+            <summary>
+            Gets or sets the time that this plugin was built.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Description">
+            <summary>
+            Gets or sets the description of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Id">
+            <summary>
+            Gets or sets the unique identifier of this plugin used in the web store.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Name">
+            <summary>
+            Gets or sets the unique plugin's name.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Summary">
+            <summary>
+            Gets or sets the description of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.Version">
+            <summary>
+            Gets or sets the version number of the plugin.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginInfo.VersionId">
+            <summary>
+            Gets or sets the unique version identifier of the plugin used by the web store.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.PluginSetting">
+            <summary>
+            Represents a plugin setting within the a4t.xml's settings element.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.isArray">
+            <summary>
+            Whether or not this setting represents an array.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.isClientSetting">
+            <summary>
+            Whether or not this setting can be read by the client api.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.isEncryptedSetting">
+            <summary>
+            Whether or not this setting is to be encrypted.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.ns">
+            <summary>
+            The a4t.xm's namespace.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.element">
+            <summary>
+            The add setting element within the plugin's settings element that this represents.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSetting.settings">
+            <summary>
+            The parent settings object that this setting belongs to.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSetting.#ctor(Alchemy4Tridion.Plugins.Info.IPluginSettings,System.Xml.Linq.XElement)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="settings"></param>
+            <param name="element"></param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSetting.GetElement">
+            <summary>
+            Gets the underlying xml element.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.HasNestedSettings">
+            <summary>
+            Whether or not this setting has nested settings.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.IsArray">
+            <summary>
+            Gets whether or not the element represents an array of items.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.IsArrayOfValues">
+            <summary>
+            Gets whether or not the element has children that only has simple values.
+            Does not check to see if the element itself is an array (should do IsArray check first).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.IsClientSetting">
+            <summary>
+            Gets or sets whether or not this setting can be read by the client api. Settng this value
+            does not modify the underlying xml.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.IsEncryptedSetting">
+            <summary>
+            Gets or sets whether or not the setting's value should be encrypted. Settng this value
+            does not modify the underlying xml.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.IsValueEncrypted">
+            <summary>
+            Gets whether or not the element's value has been encrypted.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.Key">
+            <summary>
+            Gets the key of the setting.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSetting.Value">
+            <summary>
+            Gets or sets the value of the setting. If the setting is suppose to be encrypted, will
+            encrypt the value if set or decrypt when got.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.PluginSettings">
+            <summary>
+            Represents the settings element of an a4t.xml document with helpers for retrieving
+            the various settings.
+            </summary>
+            <example>
+                string setting = settings.Get("SomeKey");
+            </example>
+            <remarks>
+            See unit tests for more examples of basic and advanced usage.
+            </remarks>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.decryptValues">
+            <summary>
+            Whether or not to decrypt the values returned via the Get methods.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.encryptionKey">
+            <summary>
+            The encryption key used to decrypt the values.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.ns">
+            <summary>
+            The a4t.xml's namespace.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.pluginConfiguration">
+            <summary>
+            The plugin's a4t.xml document.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.rootElement">
+            <summary>
+            Represents the root element that these settings represent.
+            </summary>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.Info.PluginSettings.settings">
+            <summary>
+            The underlying dictionary containing the different settings.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.#ctor(Alchemy4Tridion.Plugins.IAlchemyPlugin)">
+            <summary>
+            Constructor for extracting the settings from a a4t.xml file within a plugin's plugin path.
+            </summary>
+            <param name="plugin">The plugin to get the a4t file from.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.#ctor(System.String,Alchemy4Tridion.Plugins.IAlchemyPlugin)">
+            <summary>
+            Constructor for extracting th esettings from a given a4t.xml document.
+            </summary>
+            <param name="fullPathToXml">The full path to a plugin's a4t.xml file.</param>
+            <param name="plugin">Reference to the plugin that contains these settings.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.#ctor(System.Xml.Linq.XDocument,Alchemy4Tridion.Plugins.IAlchemyPlugin)">
+            <summary>
+            Constructor for extracting the settings from a given a4t.xml document.
+            </summary>
+            <param name="pluginConfiguration">The doc that represents the a4t.xml file.</param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.#ctor(System.Xml.Linq.XDocument,System.Xml.Linq.XElement,Alchemy4Tridion.Plugins.Info.PluginSettings)">
+            <summary>
+            Private constructor for nested dictionaries.
+            </summary>
+            <param name="pluginConfiguration"></param>
+            <param name="element"></param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Decrypt(System.String)">
+            <summary>
+            If the given encryption key matches the ISettingsEncryptorService's key of the plugin, will decypt values
+            that are retrieved via the Get methods.
+            </summary>
+            <param name="encryptionKey">The encryption key used by the plugin.</param>
+            <returns>True if the key matched and values will not be decrypted, else false.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get``1">
+            <summary>
+            Gets all of the settings at this level deserialized into a strongly typed object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get``1(System.Boolean)">
+            <summary>
+            Gets all of the client only settings at this level deserialized into a strongly typed object.
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="clientOnly">Whether or not to include only client settings.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get(System.Type,System.Boolean)">
+            <summary>
+            Gets all of the client only settings at this level deserialized into a strongly typed object.
+            </summary>
+            <param name="type">The type to return the value as.</param>
+            <param name="clientOnly">Whether or not to include only client settings.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get(System.String,System.String)">
+            <summary>
+            Gets a value from the plugin settings.
+            </summary>
+            <param name="key">The key of the setting to lookup.</param>
+            <param name="defaultValue">The default value to return (defaults as null).</param>
+            <returns>The value, or the default value if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get``1(System.String)">
+            <summary>
+            Gets a value from the plugin settings as a specific type.
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="key">The key of the setting to lookup.</param>
+            <returns>The value as the specified type, or the default of that Type if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Get``1(System.String,``0)">
+            <summary>
+            Gets a value from the plugin settings as a specific type. 
+            </summary>
+            <typeparam name="T">The type to return the value as.</typeparam>
+            <param name="key">The key of the setting to lookup.</param>
+            <param name="defaultValue">The default value to return if the setting couldn't be found.</param>
+            <returns>The value as the specified type, or the defualt value if not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.GetAsClientType">
+            <summary>
+            Gets a deserialized object based off of client only settings
+            at the root level of the settings element.
+            </summary>
+            <returns>
+            The value as the specified type defined by the 'ClientSettingsType' ExpandoObject.
+            </returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.GetList(System.String)">
+            <summary>
+            Gets a setting's value as a list of string values.
+            </summary>
+            <param name="key">The key of the setting to lookup</param>
+            <returns>Null if the key was not found, or a list of string values that are trimmed of whitespace.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.GetSetting(System.String)">
+            <summary>
+            Gets a plugin setting value as an underyling PluginSetting instance.
+            </summary>
+            <param name="key">The key of the setting to lookup.</param>
+            <returns>The PluginSetting, or null if the key was not found.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.GetNestedSettings(System.String)">
+            <summary>
+            Gets a value as a nested PluginSettings instance (for non 'add' elements, the key will be the element's
+            name and the value will be the element's value.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.Save">
+            <summary>
+            Saves the a4t.xml file with any changes that have been made.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.AddPropertiesToDynamicClientType(System.Collections.Generic.IDictionary{System.String,System.Object},Alchemy4Tridion.Plugins.Info.IPluginSettings,System.Boolean)">
+            <summary>
+            Adds setting values to a level of the returned json object.
+            </summary>
+            <param name="config"></param>
+            <param name="settings"></param>
+            <param name="ignoreHasChildElementsAttribute"></param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeElement``1(System.Xml.Linq.XElement)">
+            <summary>
+            Gets a deserialized value based on a setting's child elements.
+            </summary>
+            <typeparam name="T">The type to deserialize as.</typeparam>
+            <param name="element">The root element to be deserialized.</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeElement(System.Type,System.Xml.Linq.XElement)">
+            <summary>
+            Gets a deserialized value based on a setting's child elements.
+            </summary>
+            <param name="type">The type to deserialize as.</param>
+            <param name="element">The root element to be deserialized.</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeElements``1(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})">
+            <summary>
+            Gets a deserialized value based on a setting's child elements.
+            </summary>
+            <typeparam name="T">The type to deserialize as.</typeparam>
+            <param name="elements">The elements to be serserialized into the root item.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeElements(System.Type,System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})">
+            <summary>
+            Gets a deserialized value based on a setting's child elements.
+            </summary>
+            <param name="type">The type to deserialize as.</param>
+            <param name="elements">The elements to be serserialized into the root item.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeSettings(System.Xml.Linq.XElement,Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeDefaultOptions)">
+            <summary>
+            Deserialize the xml elements to PluginSettings put into the private settings dictionary.
+            </summary>
+            <param name="parentElement"></param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.Info.PluginSettings.SetDefaultAttributes(Alchemy4Tridion.Plugins.Info.PluginSetting,System.Xml.Linq.XElement,Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeDefaultOptions)">
+            <summary>
+            Sets default attributes on the given setting. If the given element contains the attribute, then it is not overridden.
+            </summary>
+            <param name="setting">The setting to set the values for.</param>
+            <param name="element">The xml element (used to check if the attribute exists).</param>
+            <param name="options">The default options.</param>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.ClientSettingsType">
+            <summary>
+            Gets or sets the type that the client settings should be deserialized to with the GetClientSettings method.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.DecryptValues">
+            <summary>
+            Gets whether or not the values will be decrypted by the Get methods.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.EncryptionKey">
+            <summary>
+            Gets the encryption key that was used with the Decrypt method.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.Keys">
+            <summary>
+            Gets the keys of the root level that this instance represents.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.Plugin">
+            <summary>
+            Reference to the plugin that these settings belong to. Can be null if the settings
+            were not created by the plugin itself.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeDefaultOptions">
+            <summary>
+            Settings to default child settings to.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeDefaultOptions.IsClientSetting">
+            <summary>
+            Gets or sets whether or not the client api can read this value.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.PluginSettings.DeserializeDefaultOptions.IsEncryptedValue">
+            <summary>
+            Gets or sets whether or not the values are to be encrypted by the engine.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.Info.SettingsDeserializationService">
+            <summary>
+            Default plugin service that is used for deserializing settings.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.Info.SettingsDeserializationService.ClientSettingsType">
+            <summary>
+            Gets or sets the type that is used when deserialize the client settings. If left
+            empty, the plugin's Settings.GetClientSettings() will return an ExpandoObject.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.IPluginServiceLocator">
+            <summary>
+            Interface for class that represents a strongly typed service locator that each plugin contains.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IPluginServiceLocator.SettingsDeserialization">
+            <summary>
+            Gets or sets the utility that will be used to deserialize the plugin's settings.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.IPluginServiceLocator.SettingsEncryptor">
+            <summary>
+            Gets or sets the utility used for encrypting and decrypting custom configuration settings.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.PluginServiceLocator">
+            <summary>
+            Represents a strongly typed service locator that each plugin will maintain its own version of so that they
+            can override services without affecting others.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.PluginServiceLocator.SettingsDeserialization">
+            <summary>
+            Gets or sets the utility that will be used to deserialize the plugin's settings.
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.PluginServiceLocator.SettingsEncryptor">
+            <summary>
+            Gets or sets the service that is used for encrypting custom configuration settings.
+            </summary>
+        </member>
+        <member name="T:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute">
+            <summary>
+            Custom route prefix for Alchemy WebAPI controllers to supply service names.  Service names
+            are used by both the js proxy and the generated url's to your controller's actions.  This is optional,
+            and if not supplied then the action's routes and js proxies will be added to "Api".
+            </summary>
+            <example>
+            <code>
+            [AlchemyRoutePrefix("Hello")]
+            public class HelloController()
+            {
+                [HttpGet]
+                [HttpRoute("greet")]
+                public string Greet()
+                {
+                    return "Hello World!";
+                }
+            }
+            </code>
+            Generated URL:
+            <c>/Alchemy/Plugins/YourPlugin/api/Hello/greet</c>
+            Generated JS Proxy:
+            <c>Alchemy.Plugins.YourPlugin.Api.Hello.greet();</c>
+            
+            Without the attribute, the url would be the following:
+            Generated URL:
+            <c>Alchemy/Plugins/YourPlugin/api/greet</c>
+            Generated JS Proxy:
+            <c>Alchemy.Plugins.YourPlugin.Api.greet();</c>
+            </example>
+        </member>
+        <member name="F:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute.serviceName">
+            <summary>
+            The name of the service that the controller represents.
+            </summary>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="pluginType">The plugin type (the one that extends AlchemyPluginBase).</param>
+            <param name="serviceName">
+            The name of the service (used for the routes to your api controllers). For example, if you used
+            'MyService' as a service name, then the route to all of the actions on the controller would be
+            /Alchemy/Plugins/PluginName/api/MyService/action.  Also the service name is what will be used
+            as the object that the proxy methods get attached to when the JavaScript proxy is generated.
+            </param>
+        </member>
+        <member name="M:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute.#ctor(System.String)">
+            <summary>
+            Constructor for supplying a service name to your api controller.  The service name
+            is what gets used for the URL as well as the object name of the JS proxy.
+            </summary>
+            <param name="serviceName">
+            The name of the service (used for the routes to your api controllers). For example, if you used
+            'MyService' as a service name, then the route to all of the actions on the controller would be
+            /Alchemy/Plugins/PluginName/api/MyService/action.  Also the service name is what will be used
+            as the object that the proxy methods get attached to when the JavaScript proxy is generated.
+            If now service name is used, then routes just get added to /Alchemy/Plugins/PluginName/api/action.
+            </param>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute.Prefix">
+            <summary>
+            Gets the prefix for the route (alias for ServiceName property).
+            </summary>
+        </member>
+        <member name="P:Alchemy4Tridion.Plugins.AlchemyRoutePrefixAttribute.ServiceName">
+            <summary>
+            Gets the name of the service.  This is used to generate the routes to your api controllers.
+            </summary>
+        </member>
+    </members>
+</doc>

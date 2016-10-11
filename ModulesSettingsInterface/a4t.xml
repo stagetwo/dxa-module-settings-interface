@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.alchemywebstore.com/">
+  <id>55d2828ee4de0213d07c970a</id>
+  <description><![CDATA[TODO Write Plugin Description]]></description>
+  <name>Modules_Settings</name>
+  <version>1.0.0.0</version>
+  <versionId>55d2828ee4de0213d07c970b</versionId>
+  <settings>
+    <bundlePath client="true">/webdav/100 Master/Building Blocks/Modules/Modules Settings</bundlePath>
+    <!--Comma separated module names-->
+    <installedModules client="true">Smart Target, Core, Google Analytics, Search</installedModules>
+  </settings>
+</plugin>
