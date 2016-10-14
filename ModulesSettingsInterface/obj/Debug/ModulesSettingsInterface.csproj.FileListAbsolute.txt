@@ -26,3 +26,17 @@ C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\ModulesSettingsI
 C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.csprojResolveAssemblyReference.cache
 C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.dll
 C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.pdb
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\ModulesSettingsInterface.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\ModulesSettingsInterface.pdb
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\Alchemy4Tridion.Plugins.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\System.Web.Http.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\Tridion.ContentManager.CoreService.Client.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\Alchemy4Tridion.Plugins.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\bin\Debug\System.Web.Http.xml
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.csprojResolveAssemblyReference.cache
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.dll
+C:\Users\ContentBloom\Documents\GitHub\ModulesSettingsInterfaceGit\dxa-module-settings-interface\ModulesSettingsInterface\obj\Debug\ModulesSettingsInterface.pdb

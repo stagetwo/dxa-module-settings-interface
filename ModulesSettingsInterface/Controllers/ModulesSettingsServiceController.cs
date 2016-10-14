@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Xml.Linq;
+using System.Linq;
 using Tridion.ContentManager.CoreService.Client;
 using System.Web;
 using System.ServiceModel;
@@ -36,15 +37,39 @@ namespace ModulesSettingsInterface.Controllers
                 string username = GetUserName();
                 client.Impersonate(username);
                 OrganizationalItemItemsFilterData filter = new OrganizationalItemItemsFilterData();
-                string componentList = string.Empty;
+                string componentContents = string.Empty;
                 foreach (XElement element in client.GetListXml(path, filter).Nodes())
                 {
-                    componentList += element.Attribute("ID").Value + ", ";
+                    var componentId = element.Attribute("ID").Value;
+                    var componentXmlData = (ComponentData)client.Read(componentId, new ReadOptions());
+                    XDocument doc = XDocument.Parse(componentXmlData.Content);
+                    XElement xmlData = doc.Root;
+                    SchemaFieldsData fields = client.ReadSchemaFields(componentXmlData.Schema.IdRef, false, null);
+                    componentContents += "<table style=\"border: 1px solid black;\">";
+                    foreach (var field in fields.Fields)
+                    {
+                        if ((field is SingleLineTextFieldDefinitionData) || field is NumberFieldDefinitionData)
+                        {
+                            var ns = xmlData.GetDefaultNamespace();
+                            if (xmlData.Descendants(ns + field.Name).Any())
+                            {
+                                foreach (var descendant in xmlData.Elements(ns + field.Name))
+                                {
+                                    componentContents += "<tr><td>" + field.Name + "</td><td>" + descendant.Value + "</td></tr>";
+                                }
+                            }
+                            else
+                            {
+                                componentContents += "<tr><td>" + field.Name + "</td><td></td></tr>";
+                            }
+                        }
+                    }
+                    componentContents += "</table>";
                 }
                 // We no longer need our core service client so we close it now to free resources
                 client.Close();
                 // Return the HTML representing the pages on which our Tridion object is used
-                return componentList;
+                return componentContents;
             }
             catch (Exception ex)
             {

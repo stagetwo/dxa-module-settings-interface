@@ -14,7 +14,8 @@
 
     Alchemy.Plugins["${PluginName}"].Api.getSettings().success(function (success) {
         qwest.get('/Alchemy/Plugins/Modules_Settings/api/ModulesSettingsService/RetrieveSettings?path=' + success.bundlePath).success(function (success) {
-            console.log(success)
+            console.log(success);
+            $j("body").append(success);
         })
     })
 })();
