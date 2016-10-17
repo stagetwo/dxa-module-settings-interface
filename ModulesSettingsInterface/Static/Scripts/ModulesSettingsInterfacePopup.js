@@ -13,7 +13,7 @@
     var qwest = Alchemy.library("qwest");
 
     Alchemy.Plugins["${PluginName}"].Api.getSettings().success(function (success) {
-        qwest.get('/Alchemy/Plugins/Modules_Settings/api/ModulesSettingsService/RetrieveSettings?path=' + success.bundlePath).success(function (success) {
+        qwest.get('/Alchemy/Plugins/Modules_Settings/api/ModulesSettingsService/RetrieveSettings?path=' + success.bundlePath + '&modules=' + success.installedModules).success(function (success) {
             console.log(success);
             $j("body").append(success);
         })

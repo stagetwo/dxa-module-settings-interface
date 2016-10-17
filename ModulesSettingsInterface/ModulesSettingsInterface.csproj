@@ -92,9 +92,7 @@
     <Content Include="Static\Images\sample-small-icon.png" />
     <Content Include="Static\Scripts\ModulesSettingsInterfacePopup.js" />
     <Content Include="Static\Scripts\ModulesSettingsInterfaceCommand.js" />
-    <Content Include="Static\ModulesSettingsInterface.aspx">
-      <SubType>ASPXCodeBehind</SubType>
-    </Content>
+    <Content Include="Static\ModulesSettingsInterface.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Static\Styles\" />

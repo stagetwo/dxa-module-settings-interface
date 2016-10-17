@@ -9,6 +9,7 @@ using Tridion.ContentManager.CoreService.Client;
 using System.Web;
 using System.ServiceModel;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace ModulesSettingsInterface.Controllers
 {
@@ -26,20 +27,21 @@ namespace ModulesSettingsInterface.Controllers
     {
         [HttpGet]
         [Route("RetrieveSettings")]
-        public string RetrieveSettings(string path)
+        public string RetrieveSettings(string path, string modules)
         {
             SessionAwareCoreServiceClient client = null;
             try
             {
+                Dictionary<string, string> componentsContents = new Dictionary<string, string>();
                 // Creates a new core service client
                 client = new SessionAwareCoreServiceClient("netTcp_2013");
                 // Gets the current user so we can impersonate them for our client
                 string username = GetUserName();
                 client.Impersonate(username);
                 OrganizationalItemItemsFilterData filter = new OrganizationalItemItemsFilterData();
-                string componentContents = string.Empty;
                 foreach (XElement element in client.GetListXml(path, filter).Nodes())
                 {
+                    string componentContents = String.Empty;
                     var componentId = element.Attribute("ID").Value;
                     var componentXmlData = (ComponentData)client.Read(componentId, new ReadOptions());
                     XDocument doc = XDocument.Parse(componentXmlData.Content);
@@ -55,7 +57,7 @@ namespace ModulesSettingsInterface.Controllers
                             {
                                 foreach (var descendant in xmlData.Elements(ns + field.Name))
                                 {
-                                    componentContents += "<tr><td>" + field.Name + "</td><td>" + descendant.Value + "</td></tr>";
+                                    componentContents += "<tr><td>" + field.Name + "</td><td><input type=\"text\" value=\"" + descendant.Value + "\"></td></tr>";
                                 }
                             }
                             else
@@ -65,11 +67,26 @@ namespace ModulesSettingsInterface.Controllers
                         }
                     }
                     componentContents += "</table>";
+                    var compPath = componentXmlData.LocationInfo.Path;
+                    foreach (var module in modules.Split(','))
+                    {
+                        var moduleProcessed = module.ToLower().Trim().Replace(" ", "");
+                        if(compPath.ToLower().Contains(moduleProcessed)){
+                            if (!componentsContents.ContainsKey(module))
+                            {
+                                componentsContents.Add(module, "<h2>" + module + "</h2>" + componentContents);
+                            }
+                            else
+                            {
+                                componentsContents[module] = componentsContents[module] + componentContents;
+                            }
+                        }
+                    }
                 }
                 // We no longer need our core service client so we close it now to free resources
                 client.Close();
                 // Return the HTML representing the pages on which our Tridion object is used
-                return componentContents;
+                return string.Join(Environment.NewLine, componentsContents.Select(kvp => kvp.Value.ToString()));
             }
             catch (Exception ex)
             {

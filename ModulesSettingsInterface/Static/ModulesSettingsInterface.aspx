@@ -13,6 +13,6 @@
         </cc:tridionmanager>
 		<link rel='shortcut icon' type='image/x-icon' href='${ImgUrl}favicon.png' />
     </head>
-    <body>
+    <body style="overflow: auto;">
     </body>
 </html>
